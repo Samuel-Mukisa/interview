@@ -22,8 +22,7 @@ namespace Ishop.Gui
             builder.Services.AddScoped<ICategoryManagementService, CategoryManagementService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationManagementService>();
             builder.Services.AddScoped<IShoppingCartService, ShoppingCartManagementService>();
-
-
+            builder.Services.AddHttpClient<IPaymentService, PaymentManagementService>();
 
 
 
