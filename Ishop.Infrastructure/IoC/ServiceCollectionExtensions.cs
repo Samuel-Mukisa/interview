@@ -15,11 +15,9 @@ namespace Ishop.Infrastructure.IoC
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-<<<<<<< HEAD
-            services.AddTransient<ICustomerRegistrationService, CustomerRegistrationService>();
-=======
+
            // services.AddTransient<ICustomerRegistrationService, CustomerRegistrationService>();
->>>>>>> orders
+
             return services;
         }
 
