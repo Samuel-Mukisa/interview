@@ -22,14 +22,14 @@ namespace Ishop.Gui
             builder.Services.AddScoped<ICategoryManagementService, CategoryManagementService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationManagementService>();
             builder.Services.AddScoped<IShoppingCartService, ShoppingCartManagementService>();
-<<<<<<< HEAD
+
             builder.Services.AddHttpClient<IPaymentService, PaymentManagementService>();
-=======
+
             builder.Services.AddScoped<IProductManagementService, ProductManagementService>();
             builder.Services.AddScoped<IOrderManagementService, OrderManagementService>();
 
 
->>>>>>> orders
+
 
 
 
