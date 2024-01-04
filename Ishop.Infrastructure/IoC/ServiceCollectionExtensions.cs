@@ -1,9 +1,7 @@
 ﻿using Ishop.Application.Services;
-<<<<<<< HEAD
-using Ishop.Infrastructure.Services;
-=======
+
 //using Ishop.Infrastructure.Services;
->>>>>>> orders
+
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
