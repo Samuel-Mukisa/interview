@@ -25,7 +25,9 @@ public class AuthenticationManagementService : IAuthenticationService
                 new MySqlConnection(_configuration.GetConnectionString("MySqlConnection").ToString());
             MySqlCommand cmd =
                 new MySqlCommand(
-                    "INSERT INTO Registration(UserName,Email,Password,IsActive) VALUES ('" + registration.UserName +
+
+                    "INSERT INTO users(UserName,Email,Password,IsActive) VALUES ('" + registration.UserName +
+
                     "','" + registration.Email + "','" + registration.Password + "','" + registration.IsActive + "')",
                     conn);
             conn.Open();
@@ -56,7 +58,9 @@ public class AuthenticationManagementService : IAuthenticationService
         conn.Open();
         MySqlDataAdapter da =
             new MySqlDataAdapter(
-                "SELECT * FROM Registration WHERE Email = '" + registration.Email + "' AND Password = '" +
+
+                "SELECT * FROM users WHERE Email = '" + registration.Email + "' AND Password = '" +
+
                 registration.Password + "' AND IsActive = 1", conn);
         DataTable dt = new DataTable();
         da.Fill(dt);

@@ -37,22 +37,7 @@ namespace Ishop.Gui.Controllers
             {
                 return BadRequest("Error retrieving categories");
             }
-            /*try
-            {
-                using (var connection = _connectionFactory.CreateConnection())
-                {
-                    connection.Open();
-                    var categories = connection.Query<CategoryDTO>("SELECT * FROM CategoryTable").ToList();
-                    return Ok(categories);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation(ex.Message);
-            }
 
-            return NoContent();*/
-            //return Ok(CategoryStore.CategoryList);
         }
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
@@ -90,9 +75,8 @@ namespace Ishop.Gui.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            //categoryDto.CategoryId =
-                //CategoryStore.CategoryList.OrderByDescending(u => u.CategoryId).FirstOrDefault().CategoryId + 1;
-            //CategoryStore.CategoryList.Add(categoryDto);
+
+
             _categoryManagementService.CreateCategory(categoryDto.CategoryName);
             
             return 1;

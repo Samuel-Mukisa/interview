@@ -26,7 +26,9 @@ public class CategoryManagementService : ICategoryManagementService
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySqlConnection")))
             {
                 conn.Open();
-                string sql = "INSERT INTO CategoryTable (CategoryName) VALUES (@categoryName)";
+
+                string sql = "INSERT INTO Categories (CategoryName) VALUES (@categoryName)";
+
                 await conn.ExecuteAsync(sql, new { CategoryName = categoryName});
             }
         }
@@ -46,7 +48,9 @@ public class CategoryManagementService : ICategoryManagementService
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySqlConnection")))
             {
                 conn.Open();
-                string sql = "SELECT * FROM CategoryTable";
+
+                string sql = "SELECT * FROM Categories";
+
                 var categories = await conn.QueryAsync<Category>(sql);
                 return categories.AsList();
             }
@@ -64,7 +68,9 @@ public class CategoryManagementService : ICategoryManagementService
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySqlConnection")))
             {
                 conn.Open();
-                string sql = "SELECT * FROM CategoryTable WHERE CategoryId = @id";
+
+                string sql = "SELECT * FROM Categories WHERE CategoryId = @id";
+
                 var category = await conn.QuerySingleAsync<Category>(sql, new { id = id });
                 return category;
             }
@@ -82,7 +88,9 @@ public class CategoryManagementService : ICategoryManagementService
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySqlConnection")))
             {
                 conn.Open();
-                string sql = "DELETE FROM CategoryTable WHERE CategoryId = @id";
+
+                string sql = "DELETE FROM Categories WHERE CategoryId = @id";
+
                 int affectedRows = await conn.ExecuteAsync(sql, new { id = id });
                 return affectedRows > 0; // True if deleted, False otherwise
             }
@@ -102,7 +110,9 @@ public class CategoryManagementService : ICategoryManagementService
             {
                 conn.Open();
 
-                string sql = "UPDATE CategoryTable SET ";
+
+                string sql = "UPDATE Categories SET ";
+
                 var parameters = new Dictionary<string, object>();
 
                 // Update CategoryName if not null

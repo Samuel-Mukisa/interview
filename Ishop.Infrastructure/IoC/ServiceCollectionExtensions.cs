@@ -1,5 +1,9 @@
 ﻿using Ishop.Application.Services;
+<<<<<<< HEAD
 using Ishop.Infrastructure.Services;
+=======
+//using Ishop.Infrastructure.Services;
+>>>>>>> orders
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,7 +17,11 @@ namespace Ishop.Infrastructure.IoC
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+<<<<<<< HEAD
             services.AddTransient<ICustomerRegistrationService, CustomerRegistrationService>();
+=======
+           // services.AddTransient<ICustomerRegistrationService, CustomerRegistrationService>();
+>>>>>>> orders
             return services;
         }
 
