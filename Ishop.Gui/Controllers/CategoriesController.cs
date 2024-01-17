@@ -3,6 +3,7 @@ using Ishop.Application.Services;
 using Ishop.Domain.Entities;
 using Ishop.Infrastructure.ServiceImplementations;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Ishop.Gui.Controllers
 {
@@ -23,7 +24,7 @@ namespace Ishop.Gui.Controllers
            
 
         }
-        [HttpGet]
+        [HttpGet("getcategories")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
             _logger.LogInformation("Getting all Categories");
@@ -39,7 +40,7 @@ namespace Ishop.Gui.Controllers
             }
 
         }
-        [HttpGet("{id:int}")]
+        [HttpGet("getcategory/{id:int}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
            
@@ -59,7 +60,7 @@ namespace Ishop.Gui.Controllers
            
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -77,12 +78,12 @@ namespace Ishop.Gui.Controllers
 
 
 
-            _categoryManagementService.CreateCategory(categoryDto.CategoryName);
+            _categoryManagementService.CreateCategory(categoryDto);
             
             return 1;
         }
 
-        [HttpDelete("{id:int}", Name = "DeleteCategory")]
+        [HttpDelete("delete/{id:int}", Name = "DeleteCategory")]
         public async Task<ActionResult<int>> DeleteCategory(int id)
         {
             if (id == 0)
@@ -97,7 +98,7 @@ namespace Ishop.Gui.Controllers
             return 1;
         }
 
-        [HttpPut("{id:int}",Name = "UpdateCategory")]
+        [HttpPut("update/{id:int}", Name = "UpdateCategory")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] Category categoryDto)
         {
             if (categoryDto == null || id != categoryDto.CategoryId)
@@ -109,6 +110,32 @@ namespace Ishop.Gui.Controllers
             //var Category = CategoryStore.CategoryList.FirstOrDefault(u => u.CategoryId == id);
            // Category.CategoryName = categoryDto.CategoryName;
             return NoContent();
+        }
+        
+        
+        [HttpGet]
+        [Route("Search")]
+        public async Task<IActionResult> SearchCategories([FromQuery] string searchTerm)
+        {
+            try
+            {
+                var categories = await _categoryManagementService.SearchCategories(searchTerm);
+
+                if (categories != null && categories.Count > 0)
+                {
+                    return Ok(categories);
+                }
+                else
+                {
+                    return NotFound("No categories found matching the search term.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Log.Error($"Error searching categories: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
         
     }

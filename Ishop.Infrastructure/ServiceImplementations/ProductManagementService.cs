@@ -18,32 +18,38 @@ public class ProductManagementService : IProductManagementService
         _configuration = configuration;
     }
 
-    public async Task<int> CreateProduct(string productName, string description, decimal price, int rating, int stockQuantity, bool inStock, string image, string videoURL, string returnPolicy, string warrantyInformation, int manufacturerID, int categoryID)
+    public async Task<int> CreateProduct(Product product)
     {
         try
         {
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySqlConnection")))
             {
                 conn.Open();
-                string sql = @"INSERT INTO ProductsTable 
-                                (ProductName, Description, Price, Rating, StockQuantity, InStock, Image, VideoURL, ReturnPolicy, WarrantyInformation, ManufacturerID, CategoryID) 
-                                VALUES 
-                                (@productName, @description, @price, @rating, @stockQuantity, @inStock, @image, @videoURL, @returnPolicy, @warrantyInformation, @manufacturerID, @categoryID)";
-                
+            
+                string sql = @"INSERT INTO products 
+                            (Name, Description, Category, Price, Currency, ImageURL, VideoURL, Color, Size, Material, Weight, ReturnAndWarranty, StockQuantity, StockThreshold, ManufacturerID, Rating) 
+                            VALUES 
+                            (@Name, @Description, @Category, @Price, @Currency, @ImageURL, @VideoURL, @Color, @Size, @Material, @Weight, @ReturnAndWarranty, @StockQuantity, @StockThreshold, @ManufacturerID, @Rating)";
+
+                // Use Dapper to execute the query with parameters
                 await conn.ExecuteAsync(sql, new
                 {
-                    productName,
-                    description,
-                    price,
-                    rating,
-                    stockQuantity,
-                    inStock,
-                    image,
-                    videoURL,
-                    returnPolicy,
-                    warrantyInformation,
-                    manufacturerID,
-                    categoryID
+                    product.Name,
+                    product.Description,
+                    product.Category,
+                    product.Price,
+                    product.Currency,
+                    product.ImageURL,
+                    product.VideoURL,
+                    product.Color,
+                    product.Size,
+                    product.Material,
+                    product.Weight,
+                    product.ReturnAndWarranty,
+                    product.StockQuantity,
+                    product.StockThreshold,
+                    product.ManufacturerID,
+                    product.Rating
                 });
             }
         }
@@ -63,7 +69,7 @@ public class ProductManagementService : IProductManagementService
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySqlConnection")))
             {
                 conn.Open();
-                string sql = "SELECT * FROM ProductsTable";
+                string sql = "SELECT * FROM products";
                 var products = await conn.QueryAsync<Product>(sql);
                 return products.AsList();
             }
@@ -82,7 +88,7 @@ public class ProductManagementService : IProductManagementService
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySqlConnection")))
             {
                 conn.Open();
-                string sql = "SELECT * FROM ProductsTable WHERE ProductID = @id";
+                string sql = "SELECT * FROM products WHERE ProductID = @id";
                 var product = await conn.QuerySingleAsync<Product>(sql, new { id });
                 return product;
             }
@@ -101,7 +107,7 @@ public class ProductManagementService : IProductManagementService
             using (var conn = new MySqlConnection(_configuration.GetConnectionString("MySqlConnection")))
             {
                 conn.Open();
-                string sql = "DELETE FROM ProductsTable WHERE ProductID = @id";
+                string sql = "DELETE FROM products WHERE ProductID = @id";
                 int affectedRows = await conn.ExecuteAsync(sql, new { id });
                 return affectedRows > 0; // True if deleted, False otherwise
             }
@@ -121,14 +127,14 @@ public class ProductManagementService : IProductManagementService
             {
                 conn.Open();
 
-                string sql = "UPDATE ProductsTable SET ";
+                string sql = "UPDATE products SET ";
                 var parameters = new Dictionary<string, object>();
 
                 // Update properties if not null
-                if (updatedProduct.ProductName != null)
+                if (updatedProduct.Name != null)
                 {
-                    sql += "ProductName = @ProductName, ";
-                    parameters.Add("ProductName", updatedProduct.ProductName);
+                    sql += "Name = @Name, ";
+                    parameters.Add("Name", updatedProduct.Name);
                 }
 
                 if (updatedProduct.Description != null)

@@ -1,4 +1,3 @@
-
 // OrdersController.cs
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -24,30 +23,30 @@ namespace Ishop.Gui.Controllers
             _orderManagementService = orderManagementService;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<int>> CreateOrder([FromBody] OrderRequestModel orderRequest)
+        public async Task<ActionResult<int>> CreateOrder([FromBody] Order order)
         {
-            if (orderRequest == null)
+            if (order == null)
             {
                 return BadRequest("Invalid order request");
             }
 
-            var products = orderRequest.Products; // Assuming you have a model for order request
+            var products = order.Products;
 
             if (products == null || products.Count == 0)
             {
                 return BadRequest("No products in the order");
             }
 
-            int userID = orderRequest.UserID; // Assuming you have the user ID
+            int retailerID = order.RetailerID; // Assuming you have the retailer ID
 
             // Calculate total amount based on the products (you might have a more sophisticated logic)
             decimal totalAmount = CalculateTotalAmount(products);
 
-            var orderID = await _orderManagementService.CreateOrder(userID, products, totalAmount);
+            var orderID = await _orderManagementService.CreateOrder(order);
 
             if (orderID > 0)
             {
@@ -59,7 +58,7 @@ namespace Ishop.Gui.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("GetOrder/{id:int}")]
         public async Task<ActionResult<Order>> GetOrder(int id)
         {
             var order = await _orderManagementService.GetOrder(id);
@@ -74,7 +73,7 @@ namespace Ishop.Gui.Controllers
             }
         }
 
-        [HttpPut("{id:int}/status")]
+        [HttpPut("Update/{id:int}")]
         public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] OrderStatusUpdateModel statusUpdate)
         {
             if (statusUpdate == null || string.IsNullOrWhiteSpace(statusUpdate.Status))
@@ -94,7 +93,7 @@ namespace Ishop.Gui.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("allOrders")]
         public async Task<ActionResult<List<Order>>> GetAllOrders()
         {
             var orders = await _orderManagementService.GetAllOrders();
@@ -126,7 +125,7 @@ namespace Ishop.Gui.Controllers
     // Models used in the controller
     public class OrderRequestModel
     {
-        public int UserID { get; set; }
+        public int RetailerID { get; set; }
         public List<Product> Products { get; set; }
     }
 

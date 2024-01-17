@@ -6,5 +6,7 @@ public interface IAuthentication
 { 
     Task<int> CreateUser(Registration registration);
     Task<int> LoginUser(Registration registration);
+    Task<Registration> GetManufacturerById(int id);
+    
 
 }

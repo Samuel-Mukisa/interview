@@ -8,6 +8,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+// ProductsController.cs
+using Dapper;
+using Ishop.Application.Services;
+using Ishop.Domain.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ishop.Gui.Controllers
 {
@@ -24,7 +35,7 @@ namespace Ishop.Gui.Controllers
             _productManagementService = productManagementService;
         }
 
-        [HttpGet]
+        [HttpGet("Getproducts")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             _logger.LogInformation("Getting all Products");
@@ -40,7 +51,7 @@ namespace Ishop.Gui.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("Getproduct/{id:int}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             _logger.LogError("Get Product Error with Id" + id);
@@ -56,7 +67,7 @@ namespace Ishop.Gui.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -72,25 +83,12 @@ namespace Ishop.Gui.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            _productManagementService.CreateProduct(
-                productDto.ProductName,
-                productDto.Description,
-                productDto.Price,
-                productDto.Rating,
-                productDto.StockQuantity,
-                productDto.InStock,
-                productDto.Image,
-                productDto.VideoURL,
-                productDto.ReturnPolicy,
-                productDto.WarrantyInformation,
-                productDto.ManufacturerID,
-                productDto.CategoryID
-            );
+            _productManagementService.CreateProduct(productDto);
 
             return 1;
         }
 
-        [HttpDelete("{id:int}", Name = "DeleteProduct")]
+        [HttpDelete("delete/{id:int}", Name = "DeleteProduct")]
         public async Task<ActionResult<int>> DeleteProduct(int id)
         {
             if (id == 0)
@@ -101,7 +99,7 @@ namespace Ishop.Gui.Controllers
             return 1;
         }
 
-        [HttpPut("{id:int}", Name = "UpdateProduct")]
+        [HttpPut("update/{id:int}", Name = "UpdateProduct")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product productDto)
         {
             if (productDto == null || id != productDto.ProductID)

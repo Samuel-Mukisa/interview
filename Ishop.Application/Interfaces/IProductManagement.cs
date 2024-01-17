@@ -9,7 +9,7 @@ namespace Ishop.Application.Interfaces
     {
         Task<List<Product>> GetAllProducts();
         Task<Product> GetProduct(int id);
-        Task<int> CreateProduct(string productName, string description, decimal price, int rating, int stockQuantity, bool inStock, string image, string videoURL, string returnPolicy, string warrantyInformation, int manufacturerID, int categoryID);
+        Task<int> CreateProduct(Product product);
         Task<bool> DeleteProduct(int id);
         Task<bool> UpdateProduct(int id, [FromBody] Product productDto);
     }
