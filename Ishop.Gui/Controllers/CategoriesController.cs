@@ -2,6 +2,7 @@ using Dapper;
 using Ishop.Application.Services;
 using Ishop.Domain.Entities;
 using Ishop.Infrastructure.ServiceImplementations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -24,6 +25,12 @@ namespace Ishop.Gui.Controllers
            
 
         }
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+
         [HttpGet("getcategories")]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {

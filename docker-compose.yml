@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  ishop.gui:
+    image: ${DOCKER_REGISTRY-}ishopgui
+    build:
+      context: .
+      dockerfile: Ishop.Gui\Dockerfile

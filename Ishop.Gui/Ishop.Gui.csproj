@@ -6,24 +6,30 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>WinExe</OutputType>
     <StartupObject>Ishop.Gui.Program</StartupObject>
+    <UserSecretsId>c6f0bc5a-1239-490a-aceb-afda1112b82b</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.24" />
+    <PackageReference Include="Dapper" Version="2.1.28" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.26" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
-    <PackageReference Include="MySql.Data" Version="8.2.0" />
-    <PackageReference Include="MySqlConnector" Version="2.3.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+    <PackageReference Include="MySql.Data" Version="8.3.0" />
+    <PackageReference Include="MySqlConnector" Version="2.3.4" />
 
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 
     <PackageReference Include="Serilog" Version="3.1.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.2.0" />
   </ItemGroup>
 
   <ItemGroup>

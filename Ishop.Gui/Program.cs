@@ -12,6 +12,11 @@ using Ishop.Infrastructure.ServiceImplementations;
 using MySqlConnector;
 using Serilog;
 using Serilog.Events;
+using Ishop.Gui.Controllers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 namespace Ishop.Gui
 {
@@ -20,6 +25,25 @@ namespace Ishop.Gui
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //Jwt configuration starts here
+            var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
+            var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+             .AddJwtBearer(options =>
+             {
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     ValidIssuer = jwtIssuer,
+                     ValidAudience = jwtIssuer,
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+                 };
+             });
 
             builder.Services.AddTransient(x =>
                 new MySqlConnection(builder.Configuration.GetConnectionString("MySqlConnection")));
@@ -33,8 +57,12 @@ namespace Ishop.Gui
             builder.Services.AddScoped<IPromotionManagement, PromotionManagementService>();
             builder.Services.AddScoped<IDeliveryAgentManagement, DeliveryAgentManagementService>();
             builder.Services.AddScoped<IRetailerAuthenticationService, RetailerAuthenticationManagementService>();
+            builder.Services.AddTransient<MessageRepository>();
+            builder.Services.AddTransient<MessagingDbContext>();
 
-            
+            // Add SignalR services
+            builder.Services.AddSignalR();
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -61,6 +89,8 @@ namespace Ishop.Gui
             app.UseHttpsRedirection(); // No parameters here
 
             app.UseAuthorization();
+            app.MapHub<MessagingHub>("/messagingHub");
+
             app.MapControllers();
             app.Run();
         }

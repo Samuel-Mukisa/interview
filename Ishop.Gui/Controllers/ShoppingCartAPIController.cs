@@ -1,6 +1,7 @@
 ﻿using Ishop.Application.Services;
 using Ishop.Domain.Entities;
 using Ishop.Infrastructure.ServiceImplementations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -11,7 +12,7 @@ namespace Ishop.Gui.Controllers
     [ApiController]
     public class ShoppingCartAPIController : ControllerBase
     {
-        private readonly ILogger<ShoppingCartAPIController> _logger;   
+       private readonly ILogger<ShoppingCartAPIController> _logger;   
        private readonly IShoppingCartService _shoppingcartmanagement;
         
         public ShoppingCartAPIController(IShoppingCartService shoppingcartmanagement,ILogger<ShoppingCartAPIController> logger)
@@ -19,6 +20,8 @@ namespace Ishop.Gui.Controllers
            _shoppingcartmanagement = shoppingcartmanagement;
             _logger = logger;
         }
+
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
