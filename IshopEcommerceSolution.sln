@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ishop.Application", "Ishop.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ishop.Gui", "Ishop.Gui\Ishop.Gui.csproj", "{690EA739-DDA0-4DD0-9C47-DF68D8512707}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BB0959E6-1BEC-4E27-A6D4-87137B480771}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +33,11 @@ Global
 		{690EA739-DDA0-4DD0-9C47-DF68D8512707}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{690EA739-DDA0-4DD0-9C47-DF68D8512707}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{690EA739-DDA0-4DD0-9C47-DF68D8512707}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BB0959E6-1BEC-4E27-A6D4-87137B480771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB0959E6-1BEC-4E27-A6D4-87137B480771}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB0959E6-1BEC-4E27-A6D4-87137B480771}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB0959E6-1BEC-4E27-A6D4-87137B480771}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CB18EA6E-CDE5-4ED2-BFA2-BE1E749EB6E4}
 	EndGlobalSection
 EndGlobal
