@@ -32,11 +32,10 @@ namespace Ishop.Gui
             builder.Services.AddScoped<IOrderManagementService, OrderManagementService>();
             builder.Services.AddScoped<IPromotionManagement, PromotionManagementService>();
             builder.Services.AddScoped<IDeliveryAgentManagement, DeliveryAgentManagementService>();
-
+            builder.Services.AddScoped<IRetailerAuthenticationService, RetailerAuthenticationManagementService>();
 
             
             builder.Services.AddControllers();
-
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddInfrastructure();
